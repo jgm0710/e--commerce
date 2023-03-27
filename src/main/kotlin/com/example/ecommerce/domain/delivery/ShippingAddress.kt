@@ -1,11 +1,8 @@
 package com.example.ecommerce.domain.delivery
 
-import com.example.ecommerce.global.domain.Aggregate
+import com.example.ecommerce.global.domain.AbstractAggregate
 
 class ShippingAddress(
     memberId: Long,
-    deliveryAddress: DeliveryAddress,
-) : Aggregate() {
-
-    lateinit var id: ShippingAddressId
-}
+    deliveryAddress: DeliveryAddress
+) : AbstractAggregate<ShippingAddressId>()
