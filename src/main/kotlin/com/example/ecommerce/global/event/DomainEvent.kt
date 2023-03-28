@@ -1,3 +1,3 @@
 package com.example.ecommerce.global.event
 
-interface DomainEvent
+sealed interface DomainEvent

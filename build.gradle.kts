@@ -27,6 +27,7 @@ dependencies {
     runtimeOnly("com.mysql:mysql-connector-j")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
+    implementation("org.springframework.kafka:spring-kafka")
 }
 
 tasks.withType<KotlinCompile> {

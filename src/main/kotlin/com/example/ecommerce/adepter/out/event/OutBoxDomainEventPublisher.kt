@@ -9,11 +9,11 @@ import kotlin.reflect.KClass
 
 class OutBoxDomainEventPublisher(
     private val outBoxRepository: OutBoxRepository,
-    private val objectMapper: ObjectMapper
-) : DomainEventPublisher{
+    private val objectMapper: ObjectMapper,
+) : DomainEventPublisher {
 
     override fun publish(aggregateType: String, aggregateId: AggregateId, domainEvents: List<DomainEvent>) {
-        domainEvents.forEach{ domainEvent ->
+        domainEvents.forEach { domainEvent ->
             outBoxRepository.save(
                 OutBox.create(
                     eventType = domainEvent.javaClass.simpleName,
@@ -25,7 +25,12 @@ class OutBoxDomainEventPublisher(
         }
     }
 
-    override fun <A : Aggregate> publish(aggregateType: KClass<A>, aggregateId: AggregateId, domainEvents: List<DomainEvent>) {
-        TODO("Not yet implemented")
+    override fun <A : Aggregate> publish(
+        aggregateType: KClass<A>,
+        aggregateId: AggregateId,
+        domainEvents: List<DomainEvent>,
+    ) {
+        val checkNotNull = checkNotNull(aggregateType.simpleName) { "[aggregateType.simpleName] 는 null 일 수 없습니다." }
+        publish(checkNotNull, aggregateId, domainEvents)
     }
 }

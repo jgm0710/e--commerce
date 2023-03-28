@@ -8,5 +8,5 @@ interface DomainEventPublisher {
 
     fun publish(aggregateType: String, aggregateId: AggregateId, domainEvents: List<DomainEvent>)
 
-    fun <A: Aggregate> publish(aggregateType: KClass<A>, aggregateId: AggregateId, domainEvents: List<DomainEvent>)
+    fun <A : Aggregate> publish(aggregateType: KClass<A>, aggregateId: AggregateId, domainEvents: List<DomainEvent>)
 }
