@@ -18,7 +18,7 @@ class MemberAplService(
     private val saveMemberPort: SaveMemberPort,
 //    private val saveAccountPort: SaveAccountPort,
     private val findMemberPort: FindMemberPort,
-    private val applicationEventPublisher: ApplicationEventPublisher
+    private val applicationEventPublisher: ApplicationEventPublisher,
 ) : SignUpUseCase, GetMemberDetailQueryCase {
 
     @Transactional
