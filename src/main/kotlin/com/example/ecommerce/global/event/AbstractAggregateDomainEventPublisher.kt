@@ -2,6 +2,7 @@ package com.example.ecommerce.global.event
 
 import com.example.ecommerce.global.domain.Aggregate
 import com.example.ecommerce.global.domain.AggregateId
+import com.example.ecommerce.global.event.domainevent.DomainEvent
 import java.util.function.Function
 import kotlin.reflect.KClass
 

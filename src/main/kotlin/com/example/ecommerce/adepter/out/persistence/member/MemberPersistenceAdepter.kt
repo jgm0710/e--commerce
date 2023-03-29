@@ -1,4 +1,4 @@
-package com.example.ecommerce.adepter.out.persistence
+package com.example.ecommerce.adepter.out.persistence.member
 
 import com.example.ecommerce.application.port.member.out.FindMemberPort
 import com.example.ecommerce.application.port.member.out.SaveMemberPort
