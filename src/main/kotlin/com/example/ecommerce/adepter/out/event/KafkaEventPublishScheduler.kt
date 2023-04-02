@@ -16,7 +16,7 @@ class KafkaEventPublishScheduler(
 
     private val log = LoggerFactory.getLogger(this::class.java)
 
-    @Scheduled(cron = "0 */5 * * * *", zone = "Asia/Seoul")
+    @Scheduled(cron = "* * * * * *", zone = "Asia/Seoul")
     fun publishDomainEvent() {
         val outBoxes = outBoxRepository.findAllByIsPublished(false)
 
