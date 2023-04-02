@@ -17,9 +17,20 @@ data class MemberDetail(
     val agreements: List<Agreement>,
     val memberAddress: MemberAddress
 ) {
+
     companion object {
         fun from(member: Member) : MemberDetail{
-            TODO("Not yet implemented")
+            return MemberDetail(
+                    id = member.id,
+                    name = member.name,
+                    nickname = member.nickname,
+                    birth = member.birth,
+                    email = member.email,
+                    phone = member.phone,
+                    tel = member.tel,
+                    agreements = member.agreements,
+                    memberAddress = member.memberAddress
+            )
         }
     }
 }
