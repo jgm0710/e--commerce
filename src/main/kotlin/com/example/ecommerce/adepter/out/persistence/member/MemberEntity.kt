@@ -1,5 +1,6 @@
 package com.example.ecommerce.adepter.out.persistence.member
 
+import com.example.ecommerce.adepter.out.persistence.member.AgreementElementCollection.Companion.toEntity
 import com.example.ecommerce.domain.member.Member
 import java.time.LocalDate
 import javax.persistence.*
@@ -56,7 +57,7 @@ class MemberEntity(
                     address = memberAddress.address,
                     detailAddress = memberAddress.detailAddress,
                     zipCode = memberAddress.zipCode,
-                    agreements = agreements
+                    agreements = agreements.map { it.toEntity() }
             )
         }
     }

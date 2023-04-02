@@ -3,7 +3,7 @@ version: '3.8'
 services:
   database:
     image: mysql:latest
-    container_name: e-commerce
+    container_name: e-commerce-db
     restart: unless-stopped
     ports:
       - "43306:3306"

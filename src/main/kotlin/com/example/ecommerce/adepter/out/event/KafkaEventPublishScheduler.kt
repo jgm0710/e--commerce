@@ -22,7 +22,7 @@ class KafkaEventPublishScheduler(
 
         outBoxes.asSequence().forEach { outBox ->
             val domainEventEnvelope = DomainEventEnvelope(
-                eventId = checkNotNull(outBox.eventId) { "[outBox.eventId] 는 null 일 수 없습니다." },
+                eventId = checkNotNull(outBox.eventId) { "[outBox.eventId] 는 null 일 수 없습니다." }.toString(),
                 eventType = checkNotNull(outBox.eventType) { "[outBox.eventType] 는 null 일 수 없습니다." },
                 aggregateId = checkNotNull(outBox.entityId) { "[outBox.entityId] 는 null 일 수 없습니다." },
                 aggregateType = checkNotNull(outBox.entityType) { "[outBox.entityType] 는 null 일 수 없습니다." },
@@ -32,7 +32,7 @@ class KafkaEventPublishScheduler(
             sendMessage(domainEventEnvelope)
         }
 
-        outBoxRepository.updateToPublishByEventIds(outBoxes.mapNotNull { it.eventId })
+        outBoxRepository.updateToPublishByEventIds(outBoxes.mapNotNull { it.eventId?.toString() })
     }
 
     fun sendMessage(

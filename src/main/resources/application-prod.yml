@@ -7,5 +7,6 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
-    database-platform: org.hibernate.dialect.MySQL5Dialect
-    show-sql: true
+    show-sql: false
+  kafka:
+    bootstrap-servers: :192.168.0.202:19092,192.168.0.202:29092

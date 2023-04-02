@@ -9,3 +9,14 @@ spring:
       ddl-auto: create
     database-platform: org.hibernate.dialect.MySQL5Dialect
     show-sql: true
+  kafka:
+    bootstrap-servers: localhost:19092,localhost:29092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      group-id: e-commerce
+      enable-auto-commit: false
+      auto-offset-reset: latest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer

@@ -1,19 +1,15 @@
 package com.example.ecommerce.adepter.out.event
 
-import org.springframework.data.jpa.domain.AbstractPersistable_.id
 import java.time.Instant
 import javax.persistence.*
 
 @Entity
 open class OutBox {
-    fun publish() {
-        this.isPublished=true
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "event_id", nullable = false)
-    open var eventId: String? = null
+    open var eventId: Long? = null
 
     @Column(name = "event_type")
     open var eventType: String? = null
@@ -35,7 +31,7 @@ open class OutBox {
     open var isPublished: Boolean? = null
 
     constructor(
-        eventId: String?,
+        eventId: Long?,
         eventType: String?,
         entityId: String?,
         entityType: String?,
@@ -64,5 +60,9 @@ open class OutBox {
                 isPublished = false
             )
         }
+    }
+
+    fun publish() {
+        this.isPublished=true
     }
 }
