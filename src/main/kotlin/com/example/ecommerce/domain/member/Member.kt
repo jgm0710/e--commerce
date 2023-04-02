@@ -25,7 +25,7 @@ data class Member(
         tel: String?,
         memberAddress: MemberAddress,
     ): ResultWithDomainEvents<Member, MemberModifiedEvent> {
-        val copy = copy(
+        val modifiedMember = copy(
             name = name,
             nickname = nickname,
             birth = birth,
@@ -35,6 +35,6 @@ data class Member(
             memberAddress = memberAddress,
         )
 
-        return ResultWithDomainEvents(copy, MemberModifiedEvent.from(copy))
+        return ResultWithDomainEvents(modifiedMember, MemberModifiedEvent.from(modifiedMember))
     }
 }
