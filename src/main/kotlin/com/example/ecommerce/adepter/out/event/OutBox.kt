@@ -7,7 +7,7 @@ import javax.persistence.*
 open class OutBox {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "event_id", nullable = false)
     open var eventId: Long? = null
 

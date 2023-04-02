@@ -3,6 +3,7 @@ package com.example.ecommerce.adepter.out.event
 import com.example.ecommerce.global.event.DomainEventEnvelope
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.slf4j.LoggerFactory
+import org.springframework.data.domain.Pageable
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
@@ -16,9 +17,9 @@ class KafkaEventPublishScheduler(
 
     private val log = LoggerFactory.getLogger(this::class.java)
 
-    @Scheduled(cron = "* * * * * *", zone = "Asia/Seoul")
+    @Scheduled(fixedDelay = 100)
     fun publishDomainEvent() {
-        val outBoxes = outBoxRepository.findAllByIsPublished(false)
+        val outBoxes = outBoxRepository.findAllByIsPublishedOrderByEventIdDesc(false, Pageable.ofSize(300))
 
         outBoxes.asSequence().forEach { outBox ->
             val domainEventEnvelope = DomainEventEnvelope(
@@ -32,7 +33,7 @@ class KafkaEventPublishScheduler(
             sendMessage(domainEventEnvelope)
         }
 
-        outBoxRepository.updateToPublishByEventIds(outBoxes.mapNotNull { it.eventId?.toString() })
+        outBoxRepository.updateToPublishByEventIds(outBoxes.mapNotNull { it.eventId })
     }
 
     fun sendMessage(

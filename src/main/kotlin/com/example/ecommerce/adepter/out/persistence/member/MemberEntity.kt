@@ -9,7 +9,7 @@ import javax.persistence.*
 @Table(name = "member")
 class MemberEntity(
         @Id
-        @GeneratedValue(strategy = GenerationType.AUTO)
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Long?,
 
         @Column(nullable = false)
