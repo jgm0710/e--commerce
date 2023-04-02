@@ -4,5 +4,5 @@ import com.example.ecommerce.application.port.member.`in`.command.ModifyMemberCo
 
 interface ModifyMemberUseCase {
 
-    fun modifyMember(modifyMemberCommand: ModifyMemberCommand)
+    fun modifyMember(command: ModifyMemberCommand)
 }
