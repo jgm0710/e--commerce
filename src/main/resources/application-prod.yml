@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: jdbc:mysql://221.167.218.14:43306/e-commerce?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: ecommerce
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+    database-platform: org.hibernate.dialect.MySQL5Dialect
+    show-sql: true
