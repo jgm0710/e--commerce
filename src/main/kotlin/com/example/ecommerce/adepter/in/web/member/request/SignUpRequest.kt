@@ -1,4 +1,4 @@
-package com.example.ecommerce.adepter.`in`.web.request
+package com.example.ecommerce.adepter.`in`.web.member.request
 
 import com.example.ecommerce.application.port.member.`in`.command.SignUpCommand
 import com.example.ecommerce.domain.member.Agreement
