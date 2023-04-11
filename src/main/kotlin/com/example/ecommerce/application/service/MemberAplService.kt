@@ -1,5 +1,7 @@
 package com.example.ecommerce.application.service
 
+import com.example.ecommerce.application.port.account.out.AuthenticationPort
+import com.example.ecommerce.application.port.account.out.FindAccountPort
 import com.example.ecommerce.application.port.account.out.SaveAccountPort
 import com.example.ecommerce.application.port.member.`in`.*
 import com.example.ecommerce.application.port.member.`in`.command.ModifyMemberCommand
@@ -7,9 +9,11 @@ import com.example.ecommerce.application.port.member.`in`.command.SignUpCommand
 import com.example.ecommerce.application.port.member.out.DeleteMemberPort
 import com.example.ecommerce.application.port.member.out.FindMemberPort
 import com.example.ecommerce.application.port.member.out.SaveMemberPort
+import com.example.ecommerce.domain.account.exception.DuplicateLoginIdException
 import com.example.ecommerce.domain.member.Member
 import com.example.ecommerce.domain.member.MemberId
 import com.example.ecommerce.domain.member.event.MemberDomainEventPublisher
+import com.example.ecommerce.domain.member.exception.DuplicateNicknameException
 import com.example.ecommerce.domain.member.exception.MemberNotFoundException
 import com.example.ecommerce.domain.member.model.MemberDetail
 import com.example.ecommerce.domain.member.model.MemberSimple
@@ -19,26 +23,40 @@ import com.example.ecommerce.global.event.domainevent.MemberSignUpEvent
 import com.example.ecommerce.global.pagination.PageQuery
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import kotlin.reflect.jvm.internal.calls.ThrowingCaller.member
 
 @Service
 class MemberAplService(
     private val saveMemberPort: SaveMemberPort,
     private val saveAccountPort: SaveAccountPort,
+    private val findAccountPort: FindAccountPort,
+    private val authenticationPort: AuthenticationPort,
     private val findMemberPort: FindMemberPort,
     private val deleteMemberPort: DeleteMemberPort,
     private val memberDomainEventPublisher: MemberDomainEventPublisher,
 ) : SignUpUseCase, GetMemberDetailQueryCase, DeleteMemberUseCase, FindMembersQueryCase, ModifyMemberUseCase {
 
+    // TODO: 회원가입 -> 배송지 정보 갱신 처리 진행
     @Transactional
     override fun signUp(command: SignUpCommand): MemberId {
-        return command.createMember()
-            .let { signUpResultWithDomainEvents: ResultWithDomainEvents<Member, MemberSignUpEvent> ->
-                val savedResult: Member = saveMemberPort.save(signUpResultWithDomainEvents.result)
-                saveAccountPort.save(command.createAccount(savedResult.id))
-                memberDomainEventPublisher.publish(signUpResultWithDomainEvents.result, signUpResultWithDomainEvents.domainEvents)
-                return@let savedResult
-            }.id
+        checkDuplicateNickname(command.nickname)
+        checkDuplicateLoginId(command.loginId)
+
+        val member: Member = command.createMember().let { saveMemberPort.save(it) }
+        saveAccountPort.save(command.createAccount(member.id, authenticationPort::encodePassword))
+        memberDomainEventPublisher.publish(member, MemberSignUpEvent.from(member))
+        return member.id
+    }
+
+    private fun checkDuplicateNickname(nickname: String) {
+        if (findMemberPort.existsByNickname(nickname)) {
+            throw DuplicateNicknameException(nickname)
+        }
+    }
+
+    private fun checkDuplicateLoginId(loginId : String) {
+        if (findAccountPort.existsByLoginId(loginId)) {
+            throw DuplicateLoginIdException(loginId)
+        }
     }
 
     @Transactional(readOnly = true)
@@ -52,15 +70,21 @@ class MemberAplService(
         return findMemberPort.findAll(pageQuery).map { MemberSimple.from(it) }
     }
 
+    // TODO: member deleted event 발행 로직 추가. 회원 계정 정보 삭제 처리 필요
     @Transactional
     override fun deleteMember(memberId: MemberId) {
         deleteMemberPort.deleteById(memberId)
     }
 
+    // TODO: 회원 수정 -> 배송지 정보 갱신 처리 진행
     @Transactional
     override fun modifyMember(command: ModifyMemberCommand) {
         val member: Member = findMemberPort.findById(command.memberId)
             ?: throw MemberNotFoundException(memberId = command.memberId)
+
+        if (member.neNickname(command.nickname)) {
+            checkDuplicateNickname(command.nickname)
+        }
 
         member.modifyInfo(
             name = command.name,
