@@ -37,4 +37,8 @@ data class Member(
 
         return ResultWithDomainEvents(modifiedMember, MemberModifiedEvent.from(modifiedMember))
     }
+
+    fun neNickname(nickname: String): Boolean {
+        return this.nickname != nickname
+    }
 }
