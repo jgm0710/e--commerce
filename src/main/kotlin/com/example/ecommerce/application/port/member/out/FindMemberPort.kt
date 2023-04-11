@@ -9,4 +9,6 @@ interface FindMemberPort {
     fun findById(memberId: MemberId): Member?
 
     fun findAll(pageQuery: PageQuery) : List<Member>
+
+    fun existsByNickname(nickname: String): Boolean
 }
