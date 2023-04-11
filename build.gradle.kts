@@ -29,10 +29,16 @@ dependencies {
     // web
     implementation("org.springframework.boot:spring-boot-starter-web")
 
+    // security
+    implementation("org.springframework.boot:spring-boot-starter-security")
+
     // db
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     runtimeOnly("com.mysql:mysql-connector-j")
+
+    // swagger
+    implementation ("io.springfox:springfox-boot-starter:3.0.0")
 
     // message broker
     implementation("org.springframework.kafka:spring-kafka")
