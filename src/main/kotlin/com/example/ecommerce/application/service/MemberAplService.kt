@@ -1,6 +1,6 @@
 package com.example.ecommerce.application.service
 
-import com.example.ecommerce.application.port.account.out.AuthenticationPort
+import com.example.ecommerce.domain.account.AuthenticationProvider
 import com.example.ecommerce.application.port.account.out.FindAccountPort
 import com.example.ecommerce.application.port.account.out.SaveAccountPort
 import com.example.ecommerce.application.port.member.`in`.*
@@ -29,7 +29,7 @@ class MemberAplService(
     private val saveMemberPort: SaveMemberPort,
     private val saveAccountPort: SaveAccountPort,
     private val findAccountPort: FindAccountPort,
-    private val authenticationPort: AuthenticationPort,
+    private val authenticationProvider: AuthenticationProvider,
     private val findMemberPort: FindMemberPort,
     private val deleteMemberPort: DeleteMemberPort,
     private val memberDomainEventPublisher: MemberDomainEventPublisher,
@@ -42,7 +42,7 @@ class MemberAplService(
         checkDuplicateLoginId(command.loginId)
 
         val member: Member = command.createMember().let { saveMemberPort.save(it) }
-        saveAccountPort.save(command.createAccount(member.id, authenticationPort::encodePassword))
+        saveAccountPort.save(command.createAccount(member.id, authenticationProvider::encodePassword))
         memberDomainEventPublisher.publish(member, MemberSignUpEvent.from(member))
         return member.id
     }

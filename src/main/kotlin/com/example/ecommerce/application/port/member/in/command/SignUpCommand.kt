@@ -6,43 +6,40 @@ import com.example.ecommerce.domain.member.Agreement
 import com.example.ecommerce.domain.member.Member
 import com.example.ecommerce.domain.member.MemberAddress
 import com.example.ecommerce.domain.member.MemberId
-import com.example.ecommerce.global.event.ResultWithDomainEvents
-import com.example.ecommerce.global.event.domainevent.MemberSignUpEvent
 import java.time.LocalDate
 
 data class SignUpCommand(
-        val name: String,
-        val nickname: String,
-        val birth: LocalDate,
-        val email: String,
-        val phone: String?,
-        val tel: String?,
-        val agreements: List<Agreement>,
-        val memberAddress: MemberAddress,
-        val loginId: String,
-        val password: String,
+    val name: String,
+    val nickname: String,
+    val birth: LocalDate,
+    val email: String,
+    val phone: String?,
+    val tel: String?,
+    val agreements: List<Agreement>,
+    val memberAddress: MemberAddress,
+    val loginId: String,
+    val password: String,
 ) {
 
-    fun createMember(): ResultWithDomainEvents<Member, MemberSignUpEvent> {
+    fun createMember(): Member {
         return Member(
-                name = name,
-                nickname = nickname,
-                birth = birth,
-                email = email,
-                phone = phone,
-                tel = tel,
-                agreements = agreements,
-                memberAddress = memberAddress
-        ).let { member ->
-            ResultWithDomainEvents(member, MemberSignUpEvent.from(member))
-        }
+            name = name,
+            nickname = nickname,
+            birth = birth,
+            email = email,
+            phone = phone,
+            tel = tel,
+            agreements = agreements,
+            memberAddress = memberAddress
+        )
     }
 
-    fun createAccount(id: MemberId): Account {
+    fun createAccount(id: MemberId, encodePassword: (password: String) -> String): Account {
         return Account(
-                accountType = AccountType.EMAIL,
-                loginId = loginId,
-                password = password
+            memberId = id,
+            accountType = AccountType.EMAIL,
+            loginId = loginId,
+            password = encodePassword(password)
         )
     }
 }
