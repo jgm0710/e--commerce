@@ -8,7 +8,7 @@ spring:
     hibernate:
       ddl-auto: update
     database-platform: org.hibernate.dialect.MySQL5Dialect
-    show-sql: true
+    show-sql: false
   kafka:
     bootstrap-servers: localhost:19092,localhost:29092
     producer:
