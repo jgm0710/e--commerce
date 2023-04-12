@@ -1,7 +1,9 @@
 package com.example.ecommerce.adepter.out.persistence.member
 
-//interface MemberJpaRepository:JpaRepository<Member,MemberId> {
-//}
+import org.springframework.data.jpa.repository.JpaRepository
 
-interface MemberJpaRepository{
+interface MemberJpaRepository : JpaRepository<MemberEntity, Long> {
+
+    fun existsByNickname(nickname: String): Boolean
 }
+

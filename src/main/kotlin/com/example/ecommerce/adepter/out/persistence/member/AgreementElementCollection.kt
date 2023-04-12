@@ -9,12 +9,18 @@ import javax.persistence.Enumerated
 
 @Embeddable
 class AgreementElementCollection(
-        @Column
-        @Enumerated(EnumType.STRING)
-        val agreementType: AgreementType,
-        @Column
-        val isAccepted: Boolean,
+    @Column
+    @Enumerated(EnumType.STRING)
+    val agreementType: AgreementType,
+    @Column
+    val isAccepted: Boolean,
 ) {
+    fun toDomain(): Agreement {
+        return Agreement(
+            agreementType = agreementType,
+            isAccepted = isAccepted
+        )
+    }
 
     companion object {
         fun Agreement.toEntity(): AgreementElementCollection {
