@@ -10,6 +10,7 @@ data class PageRequest(
     val limit: Long?
 ) {
 
-    val pageQuery: PageQuery
-        get() = PageQuery(page ?: 1, limit ?: 10)
+    fun toPageQuery(): PageQuery {
+        return PageQuery(page ?: 1, limit ?: 10)
+    }
 }
