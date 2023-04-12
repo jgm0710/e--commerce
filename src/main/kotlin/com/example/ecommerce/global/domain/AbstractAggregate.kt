@@ -9,4 +9,11 @@ abstract class AbstractAggregate<ID : AggregateId> : Aggregate {
     override val createdAt: Instant = Instant.now()
 
     override var lastModifiedAt: Instant = Instant.now()
+
+    val savedId: Long?
+        get() = try {
+            this.id.value
+        } catch (e: UninitializedPropertyAccessException) {
+            null
+        }
 }
