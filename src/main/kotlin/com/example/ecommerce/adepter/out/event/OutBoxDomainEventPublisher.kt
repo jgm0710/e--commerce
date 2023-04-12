@@ -18,7 +18,7 @@ class OutBoxDomainEventPublisher(
         domainEvents.forEach { domainEvent ->
             outBoxRepository.save(
                 OutBox.create(
-                    eventType = domainEvent.javaClass.simpleName,
+                    eventType = checkNotNull(domainEvent::class.qualifiedName) { "[domainEvent::class.qualifiedName] 는 null 일 수 없습니다." },
                     entityId = aggregateId.value.toString(),
                     entityType = aggregateType,
                     eventData = objectMapper.writeValueAsString(domainEvent),
@@ -32,7 +32,7 @@ class OutBoxDomainEventPublisher(
             aggregateId: AggregateId,
             domainEvents: List<DomainEvent>,
     ) {
-        val checkNotNull = checkNotNull(aggregateType.simpleName) { "[aggregateType.simpleName] 는 null 일 수 없습니다." }
-        publish(checkNotNull, aggregateId, domainEvents)
+        val typeName = checkNotNull(aggregateType.qualifiedName) { "[aggregateType.qualifiedName] 는 null 일 수 없습니다." }
+        publish(aggregateType = typeName, aggregateId = aggregateId, domainEvents = domainEvents)
     }
 }
