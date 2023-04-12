@@ -7,6 +7,9 @@ data class SignInRequest(
     val password : String
 ) {
     fun toCommand(): SignInCommand {
-        TODO("Not yet implemented")
+        return SignInCommand(
+            loginId = loginId,
+            password = password
+        )
     }
 }
