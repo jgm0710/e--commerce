@@ -3,12 +3,13 @@ package com.example.ecommerce.adepter.`in`.web.member.response
 import com.example.ecommerce.domain.member.Agreement
 import com.example.ecommerce.domain.member.MemberAddress
 import com.example.ecommerce.domain.member.model.MemberDetail
+import java.time.LocalDate
 
 data class MemberDetailResponse(
     val id: Long,
     val name: String,
     val nickname: String,
-    val birth: String,
+    val birth: LocalDate,
     val email: String,
     val phone: String?,
     val tel: String?,
@@ -34,7 +35,7 @@ data class MemberDetailResponse(
                 id = memberDetail.id.value,
                 name = memberDetail.name,
                 nickname = memberDetail.nickname,
-                birth = memberDetail.birth.toString(),
+                birth = memberDetail.birth,
                 email = memberDetail.email,
                 phone = memberDetail.phone,
                 tel = memberDetail.tel,
