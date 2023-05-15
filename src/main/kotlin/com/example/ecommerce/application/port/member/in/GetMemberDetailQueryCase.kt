@@ -7,3 +7,5 @@ interface GetMemberDetailQueryCase {
 
     fun getMemberDetail(memberId: MemberId): MemberDetail
 }
+
+operator fun GetMemberDetailQueryCase.invoke(memberId: MemberId) = getMemberDetail(memberId)

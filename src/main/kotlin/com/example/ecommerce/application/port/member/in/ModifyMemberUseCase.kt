@@ -6,3 +6,5 @@ interface ModifyMemberUseCase {
 
     fun modifyMember(command: ModifyMemberCommand)
 }
+
+operator fun ModifyMemberUseCase.invoke(command: ModifyMemberCommand) = modifyMember(command)

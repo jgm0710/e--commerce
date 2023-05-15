@@ -4,10 +4,7 @@ import com.example.ecommerce.adepter.`in`.web.member.request.ModifyMemberRequest
 import com.example.ecommerce.adepter.`in`.web.member.request.SignUpRequest
 import com.example.ecommerce.adepter.`in`.web.member.response.MemberDetailResponse
 import com.example.ecommerce.adepter.`in`.web.member.response.MemberSimpleResponse
-import com.example.ecommerce.application.port.member.`in`.FindMembersQueryCase
-import com.example.ecommerce.application.port.member.`in`.GetMemberDetailQueryCase
-import com.example.ecommerce.application.port.member.`in`.ModifyMemberUseCase
-import com.example.ecommerce.application.port.member.`in`.SignUpUseCase
+import com.example.ecommerce.application.port.member.`in`.*
 import com.example.ecommerce.domain.member.MemberId
 import com.example.ecommerce.domain.member.model.MemberDetail
 import com.example.ecommerce.global.pagination.PageRequest
@@ -17,7 +14,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
-@Api(tags = ["members"])
+@Api(tags = ["Member API"])
 @RestController
 class MemberWebAdepter(
     val signUpUseCase: SignUpUseCase,
@@ -30,14 +27,14 @@ class MemberWebAdepter(
     @PostMapping("/members/sign-up")
     @ResponseStatus(HttpStatus.CREATED)
     fun signUp(@RequestBody @Valid request: SignUpRequest): MemberDetail {
-        val memberId: MemberId = signUpUseCase.signUp(request.toCommand())
-        return getMemberDetailQueryCase.getMemberDetail(memberId)
+        val memberId: MemberId = signUpUseCase(request.toCommand())
+        return getMemberDetailQueryCase(memberId)
     }
 
     @ApiOperation("Get member detail")
     @GetMapping("/members/{memberId}")
     fun getMemberDetail(@PathVariable memberId: Long): MemberDetailResponse {
-        return getMemberDetailQueryCase.getMemberDetail(MemberId(memberId)).let {
+        return getMemberDetailQueryCase(MemberId(memberId)).let {
             MemberDetailResponse.from(it)
         }
     }
@@ -47,16 +44,16 @@ class MemberWebAdepter(
     fun findMembers(
         @ModelAttribute @Valid pageRequest: PageRequest
     ): List<MemberSimpleResponse> {
-        return findMembersQueryCase.findAll(pageRequest.toPageQuery()).map { MemberSimpleResponse.from(it) }
+        return findMembersQueryCase(pageRequest.toPageQuery()).map { MemberSimpleResponse.from(it) }
     }
 
     @ApiOperation("Modify member info")
-    @PutMapping("members/{memberId}")
+    @PutMapping("/members/{memberId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun modifyMember(
         @PathVariable memberId: Long,
         @RequestBody @Valid request: ModifyMemberRequest
     ) {
-        modifyMemberUseCase.modifyMember(request.toCommand(memberId))
+        modifyMemberUseCase(request.toCommand(memberId))
     }
 }

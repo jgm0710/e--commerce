@@ -7,3 +7,5 @@ interface SignUpUseCase {
 
     fun signUp(command: SignUpCommand) : MemberId
 }
+
+operator fun SignUpUseCase.invoke(command: SignUpCommand) = signUp(command)

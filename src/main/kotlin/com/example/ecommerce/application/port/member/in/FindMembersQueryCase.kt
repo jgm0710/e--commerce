@@ -7,3 +7,5 @@ interface FindMembersQueryCase {
 
     fun findAll(pageQuery: PageQuery): List<MemberSimple>
 }
+
+operator fun FindMembersQueryCase.invoke(pageQuery: PageQuery) = findAll(pageQuery)
