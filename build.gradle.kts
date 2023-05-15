@@ -38,7 +38,7 @@ dependencies {
     runtimeOnly("com.mysql:mysql-connector-j")
 
     // swagger
-    implementation ("io.springfox:springfox-boot-starter:3.0.0")
+    implementation("io.springfox:springfox-boot-starter:3.0.0")
 
     // message broker
     implementation("org.springframework.kafka:spring-kafka")
