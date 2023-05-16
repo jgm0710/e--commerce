@@ -1,8 +1,6 @@
 package com.example.ecommerce.adepter.`in`.web.member.request
 
 import com.example.ecommerce.application.port.member.`in`.command.SignUpCommand
-import com.example.ecommerce.domain.member.Agreement
-import com.example.ecommerce.domain.member.MemberAddress
 import java.time.LocalDate
 
 data class SignUpRequest(
@@ -12,8 +10,8 @@ data class SignUpRequest(
     val email: String,
     val phone: String?,
     val tel: String?,
-    val agreements: List<Agreement>,
-    val memberAddress: MemberAddress,
+    val agreements: List<AgreementRequest>,
+    val memberAddress: MemberAddressRequest,
     val loginId: String,
     val password: String,
 ) {
@@ -25,8 +23,8 @@ data class SignUpRequest(
             email = email,
             phone = phone,
             tel = tel,
-            agreements = agreements,
-            memberAddress = memberAddress,
+            agreements = agreements.map { it.toDomain() },
+            memberAddress = memberAddress.toDomain(),
             loginId = loginId,
             password = password
         )

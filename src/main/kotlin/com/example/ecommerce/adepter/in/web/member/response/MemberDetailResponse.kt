@@ -1,7 +1,5 @@
 package com.example.ecommerce.adepter.`in`.web.member.response
 
-import com.example.ecommerce.domain.member.Agreement
-import com.example.ecommerce.domain.member.MemberAddress
 import com.example.ecommerce.domain.member.model.MemberDetail
 import java.time.LocalDate
 
@@ -13,21 +11,9 @@ data class MemberDetailResponse(
     val email: String,
     val phone: String?,
     val tel: String?,
-    val agreements: List<Agreement>,
-    val address: Address
+    val agreements: List<AgreementResponse>,
+    val address: AddressResponse
 ) {
-
-    data class Address(val address: String,
-                       val detailAddress: String,
-                       val zipCode: String) {
-        companion object {
-            fun from(it: MemberAddress): Address {
-                return Address(address = it.address,
-                    detailAddress = it.detailAddress,
-                    zipCode = it.zipCode)
-            }
-        }
-    }
 
     companion object {
         fun from(memberDetail: MemberDetail): MemberDetailResponse {
@@ -39,8 +25,8 @@ data class MemberDetailResponse(
                 email = memberDetail.email,
                 phone = memberDetail.phone,
                 tel = memberDetail.tel,
-                agreements = memberDetail.agreements,
-                address = memberDetail.memberAddress.let { Address.from(it) })
+                agreements = memberDetail.agreements.map { AgreementResponse.of(it) },
+                address = memberDetail.memberAddress.let { AddressResponse.of(it) })
         }
     }
 }
