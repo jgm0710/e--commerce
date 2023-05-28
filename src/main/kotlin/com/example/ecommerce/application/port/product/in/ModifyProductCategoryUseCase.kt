@@ -1,6 +1,6 @@
-package com.example.ecommerce.application.port.product
+package com.example.ecommerce.application.port.product.`in`
 
-import com.example.ecommerce.application.port.product.command.ModifyProductCategoryCommand
+import com.example.ecommerce.application.port.product.`in`.command.ModifyProductCategoryCommand
 
 interface ModifyProductCategoryUseCase {
 

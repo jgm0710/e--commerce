@@ -1,4 +1,4 @@
-package com.example.ecommerce.application.port.product
+package com.example.ecommerce.application.port.product.`in`
 
 import com.example.ecommerce.domain.product.ProductCategoryId
 
