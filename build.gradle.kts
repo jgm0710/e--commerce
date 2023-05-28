@@ -6,6 +6,7 @@ plugins {
     kotlin("jvm") version "1.6.21"
     kotlin("plugin.spring") version "1.6.21"
     kotlin("plugin.jpa") version "1.6.21"
+    id("org.openapi.generator") version "6.6.0"
 }
 
 group = "com.example"
@@ -46,6 +47,12 @@ dependencies {
     // test dependencies
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
+
+    // open api generator dependency
+    // https://mvnrepository.com/artifact/io.swagger.core.v3/swagger-annotations
+    implementation("io.swagger.core.v3:swagger-annotations:2.2.8")
+    // https://mvnrepository.com/artifact/org.openapitools/jackson-databind-nullable
+    implementation("org.openapitools:jackson-databind-nullable:0.2.2")
 }
 
 tasks.withType<KotlinCompile> {
@@ -57,4 +64,33 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+openApiGenerate {
+    generatorName.set("spring")
+    inputSpec.set("$rootDir/src/main/resources/api-document.yml")
+    outputDir.set("$buildDir/generated")
+    apiPackage.set("com.example.ecommerce.adepter.in.web")
+    modelPackage.set("com.example.ecommerce.adepter.in.web.model")
+    invokerPackage.set("com.example.ecommerce.adepter.in.web.handler")
+    configOptions.set(mapOf(
+        "interfaceOnly" to "true",
+        "delegatePattern" to "true",
+        "dateLibrary" to "java8",
+        "library" to "spring-boot",
+    ))
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir("$buildDir/generated/src/main/java")
+        }
+    }
+}
+
+tasks{
+    compileKotlin{
+        dependsOn("openApiGenerate")
+    }
 }
