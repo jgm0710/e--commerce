@@ -1,4 +1,8 @@
 package com.example.ecommerce.application.port.product.`in`.command
 
-class ModifyProductCategoryCommand {
-}
+import com.example.ecommerce.domain.product.ProductCategoryId
+
+data class ModifyProductCategoryCommand(
+    val productCategoryId: ProductCategoryId,
+    val name: String
+)
