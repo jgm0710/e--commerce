@@ -1,9 +1,11 @@
 package com.example.ecommerce.adepter.out.persistence.account
 
+import com.example.ecommerce.adepter.out.persistence.common.BaseEntity
 import com.example.ecommerce.domain.account.Account
 import com.example.ecommerce.domain.account.AccountId
 import com.example.ecommerce.domain.account.AccountType
 import com.example.ecommerce.domain.member.MemberId
+import java.time.Instant
 import javax.persistence.*
 
 
@@ -25,7 +27,11 @@ class AccountEntity(
     private val loginId: String,
 
     private val password: String?,
-) {
+
+    createdAt: Instant,
+
+    lastModifiedAt: Instant,
+) : BaseEntity(createdAt, lastModifiedAt) {
 
     companion object {
         fun Account.toEntity(): AccountEntity {
@@ -34,7 +40,9 @@ class AccountEntity(
                 accountType = accountType,
                 memberId = memberId.value,
                 loginId = loginId,
-                password = password
+                password = password,
+                createdAt = createdAt,
+                lastModifiedAt = lastModifiedAt,
             )
         }
     }
@@ -47,6 +55,8 @@ class AccountEntity(
             password = password
         ).also {
             it.id = AccountId(checkNotNull(id) { "[id] 는 null 일 수 없습니다." })
+            it.createdAt = createdAt
+            it.lastModifiedAt = lastModifiedAt
         }
     }
 }

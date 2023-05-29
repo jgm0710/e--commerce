@@ -1,9 +1,11 @@
 package com.example.ecommerce.adepter.out.persistence.member
 
+import com.example.ecommerce.adepter.out.persistence.common.BaseEntity
 import com.example.ecommerce.adepter.out.persistence.member.AgreementElementCollection.Companion.toEntity
 import com.example.ecommerce.domain.member.Member
 import com.example.ecommerce.domain.member.MemberAddress
 import com.example.ecommerce.domain.member.MemberId
+import java.time.Instant
 import java.time.LocalDate
 import javax.persistence.*
 
@@ -44,7 +46,8 @@ class MemberEntity(
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "member_agreement", joinColumns = [JoinColumn(name = "member_id")])
     val agreements: List<AgreementElementCollection>,
-) {
+    createdAt: Instant, lastModifiedAt: Instant,
+) : BaseEntity(createdAt = createdAt, lastModifiedAt = lastModifiedAt) {
     fun toDomain(): Member {
         return Member(
             name = name,
@@ -59,7 +62,11 @@ class MemberEntity(
                 detailAddress = detailAddress,
                 zipCode = zipCode
             )
-        ).also { it.id = MemberId(checkNotNull(id) { "[id] 는 null 일 수 없습니다." }) }
+        ).also {
+            it.id = MemberId(checkNotNull(id) { "[id] 는 null 일 수 없습니다." })
+            it.createdAt = createdAt
+            it.lastModifiedAt = lastModifiedAt
+        }
     }
 
     companion object {
@@ -75,7 +82,9 @@ class MemberEntity(
                 address = memberAddress.address,
                 detailAddress = memberAddress.detailAddress,
                 zipCode = memberAddress.zipCode,
-                agreements = agreements.map { it.toEntity() }
+                agreements = agreements.map { it.toEntity() },
+                createdAt = createdAt,
+                lastModifiedAt = lastModifiedAt
             )
         }
     }

@@ -6,14 +6,12 @@ abstract class AbstractAggregate<ID : AggregateId> : Aggregate {
 
     override lateinit var id: ID
 
-    override val createdAt: Instant = Instant.now()
+    override var createdAt: Instant = Instant.now()
 
     override var lastModifiedAt: Instant = Instant.now()
 
     val savedId: Long?
-        get() = try {
+        get() = runCatching {
             this.id.value
-        } catch (e: UninitializedPropertyAccessException) {
-            null
-        }
+        }.getOrNull()
 }
