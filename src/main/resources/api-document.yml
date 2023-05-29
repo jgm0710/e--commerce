@@ -5,3 +5,153 @@ info:
   version: "1.0.0"
 servers:
   - url: "https://e_commerce.com"
+paths:
+  /product-categories:
+    post:
+      summary: create product category
+      operationId: createProductCategory
+      tags:
+        - Product Categories API
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProductCategoryRequest'
+      responses:
+        200:
+          description: success response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateProductCategoryResponse'
+        400:
+          description: invalid request data
+        409:
+          description: duplicated resource on name or code
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                name-duplicate-example:
+                  value:
+                    code: "PC002"
+                    message: "상품 카테고리의 이름이 중복됩니다."
+                code-duplicate-example:
+                  value:
+                    code: "PC003"
+                    message: "상품 카테고리의 코드가 중복됩니다."
+  /product-categories/{productCategoryId}:
+    patch:
+      tags:
+        - Product Categories API
+      summary: modify product category
+      operationId: modifyProductCategory
+      parameters:
+        - name: productCategoryId
+          in: path
+          required: true
+          schema:
+            type: number
+          description: product category id to modify
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ModifyProductCategoryRequest'
+      responses:
+        204:
+          description: success response. not content
+        400:
+          description: invalid request data
+        404:
+          description: product category not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: "hihi"
+                message: "test"
+
+        #          content:
+#            application/json:
+#              example:
+#
+#              schema:
+#                $ref: '#/components/schemas/ErrorResponse'
+#              example:
+#                code: "PC001"
+#                message: "상품 카테고리를 찾을 수 없습니다."
+        409:
+          description: duplicated resource on name or code
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                name-duplicate-example:
+                  value:
+                    code: "PC002"
+                    message: "상품 카테고리의 이름이 중복됩니다."
+                code-duplicate-example:
+                  value:
+                    code: "PC003"
+                    message: "상품 카테고리의 코드가 중복됩니다."
+    delete:
+      tags:
+        - Product Categories API
+      summary: delete product category
+      operationId: deleteProductCategory
+      parameters:
+        - name: productCategoryId
+          description: product category id to delete
+          in: path
+          required: true
+          schema:
+            type: number
+      responses:
+        204:
+          description: success response. no content
+
+components:
+  schemas:
+    CreateProductCategoryRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: category name (It must not duplicate an existing name.)
+          nullable: false
+        code:
+          type: string
+          description: category code (It must not duplicate an existing code.)
+          nullable: false
+    CreateProductCategoryResponse:
+      type: object
+      properties:
+        productCategoryId:
+          type: number
+          description: created product category id
+          nullable: false
+    ModifyProductCategoryRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: category name
+          nullable: false
+        code:
+          type: string
+          description: category code
+          nullable: false
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+          description: custom error code
+        message:
+          type: string
+          description: error description
