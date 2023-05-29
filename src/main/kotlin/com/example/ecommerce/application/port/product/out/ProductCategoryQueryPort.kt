@@ -8,4 +8,8 @@ interface ProductCategoryQueryPort {
     fun findById(productCategoryId: ProductCategoryId): ProductCategory?
 
     fun findAll(): List<ProductCategory>
+
+    fun existsByName(name: String) : Boolean
+
+    fun existsByCode(code: String) : Boolean
 }

@@ -2,11 +2,12 @@ package com.example.ecommerce.application.port.product.`in`.command
 
 import com.example.ecommerce.domain.product.ProductCategory
 
-data class CreateProductionCategoryCommand(val name: String) {
+data class CreateProductionCategoryCommand(val name: String, val code: String) {
 
     fun createProductCategory(): ProductCategory {
         return ProductCategory(
-            name = name
+            name = name,
+            code = code
         )
     }
 }
