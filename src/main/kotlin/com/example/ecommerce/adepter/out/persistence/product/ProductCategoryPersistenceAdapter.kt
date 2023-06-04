@@ -29,4 +29,12 @@ class ProductCategoryPersistenceAdapter(
     override fun findAll(): List<ProductCategory> {
         return productCategoryJpaRepository.findAll().map { it.toDomain() }
     }
+
+    override fun existsByName(name: String): Boolean {
+        return productCategoryJpaRepository.existsByName(name)
+    }
+
+    override fun existsByCode(code: String): Boolean {
+        return productCategoryJpaRepository.existsByCode(code)
+    }
 }

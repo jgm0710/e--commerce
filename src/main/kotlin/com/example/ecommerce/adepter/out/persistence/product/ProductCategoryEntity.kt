@@ -15,13 +15,15 @@ class ProductCategoryEntity(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long?,
     val name: String,
+    val code: String,
     createdAt: Instant,
     lastModifiedAt: Instant,
 ) : BaseEntity(createdAt = createdAt, lastModifiedAt = lastModifiedAt) {
 
     fun toDomain(): ProductCategory {
         return ProductCategory(
-            name = name
+            name = name,
+            code = code
         ).also {
             it.id = ProductCategoryId(checkNotNull(id))
             it.createdAt = createdAt
@@ -32,8 +34,9 @@ class ProductCategoryEntity(
     companion object {
         fun ProductCategory.toEntity(): ProductCategoryEntity {
             return ProductCategoryEntity(
-                id = id.value,
+                id = savedId,
                 name = name,
+                code =code,
                 createdAt = createdAt,
                 lastModifiedAt = lastModifiedAt
             )
