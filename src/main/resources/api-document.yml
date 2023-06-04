@@ -1,18 +1,19 @@
-openapi: "3.0.3"
+openapi: 3.0.1
 info:
-  title: "e_commerce API"
-  description: "e_commerce API"
-  version: "1.0.0"
-servers:
-  - url: "https://e_commerce.com"
+  title: E Commerce API Document
+  version: 1.0.0
+tags:
+  - name: ProductCategories
+    description: product category api
 paths:
   /product-categories:
     post:
       summary: create product category
       operationId: createProductCategory
       tags:
-        - Product Categories API
+        - ProductCategories
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -44,7 +45,7 @@ paths:
   /product-categories/{productCategoryId}:
     patch:
       tags:
-        - Product Categories API
+        - ProductCategories
       summary: modify product category
       operationId: modifyProductCategory
       parameters:
@@ -91,7 +92,7 @@ paths:
                     message: "상품 카테고리의 코드가 중복됩니다."
     delete:
       tags:
-        - Product Categories API
+        - ProductCategories
       summary: delete product category
       operationId: deleteProductCategory
       parameters:
@@ -109,6 +110,9 @@ components:
   schemas:
     CreateProductCategoryRequest:
       type: object
+      required:
+        - name
+        - code
       properties:
         name:
           type: string
@@ -120,6 +124,8 @@ components:
           nullable: false
     CreateProductCategoryResponse:
       type: object
+      required:
+        - productCategoryId
       properties:
         productCategoryId:
           type: number
@@ -127,6 +133,9 @@ components:
           nullable: false
     ModifyProductCategoryRequest:
       type: object
+      required:
+        - name
+        - code
       properties:
         name:
           type: string
@@ -138,6 +147,9 @@ components:
           nullable: false
     ErrorResponse:
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string

@@ -38,9 +38,6 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     runtimeOnly("com.mysql:mysql-connector-j")
 
-    // swagger
-    implementation("io.springfox:springfox-boot-starter:3.0.0")
-
     // message broker
     implementation("org.springframework.kafka:spring-kafka")
 
@@ -48,11 +45,14 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
 
-    // open api generator dependency
-    // https://mvnrepository.com/artifact/io.swagger.core.v3/swagger-annotations
-    implementation("io.swagger.core.v3:swagger-annotations:2.2.8")
+    // open api generator dependencies
+    // https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-ui
+    implementation("org.springdoc:springdoc-openapi-ui:1.6.9")
     // https://mvnrepository.com/artifact/org.openapitools/jackson-databind-nullable
-    implementation("org.openapitools:jackson-databind-nullable:0.2.2")
+    implementation("org.openapitools:jackson-databind-nullable:0.2.4")
+    // https://mvnrepository.com/artifact/jakarta.annotation/jakarta.annotation-api
+    implementation("jakarta.annotation:jakarta.annotation-api:2.1.1")
+    implementation("javax.annotation:javax.annotation-api:1.3.2")
 }
 
 tasks.withType<KotlinCompile> {
@@ -67,30 +67,30 @@ tasks.withType<Test> {
 }
 
 openApiGenerate {
-    generatorName.set("spring")
+    generatorName.set("kotlin-spring")
     inputSpec.set("$rootDir/src/main/resources/api-document.yml")
     outputDir.set("$buildDir/generated")
-    apiPackage.set("com.example.ecommerce.adepter.in.web")
-    modelPackage.set("com.example.ecommerce.adepter.in.web.model")
-    invokerPackage.set("com.example.ecommerce.adepter.in.web.handler")
-    configOptions.set(mapOf(
-        "interfaceOnly" to "true",
-        "delegatePattern" to "true",
-        "dateLibrary" to "java8",
-        "library" to "spring-boot",
-    ))
+    apiPackage.set("com.example.ecommerce.adepter.input.web")
+    modelPackage.set("com.example.ecommerce.adepter.input.web.model")
+    invokerPackage.set("com.example.ecommerce.adepter.input.web.handler")
+    configOptions.set(
+        mapOf(
+            "dateLibrary" to "java8",
+            "interfaceOnly" to "true",
+        ),
+    )
 }
 
 sourceSets {
     main {
         java {
-            srcDir("$buildDir/generated/src/main/java")
+            srcDir("$buildDir/generated/src/main/kotlin")
         }
     }
 }
 
-tasks{
-    compileKotlin{
+tasks {
+    compileKotlin {
         dependsOn("openApiGenerate")
     }
 }

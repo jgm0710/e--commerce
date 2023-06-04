@@ -1,9 +1,9 @@
 package com.example.ecommerce.adepter.`in`.web.product
 
-import com.example.ecommerce.adepter.`in`.web.ProductCategoriesApi
-import com.example.ecommerce.adepter.`in`.web.model.CreateProductCategoryRequest
-import com.example.ecommerce.adepter.`in`.web.model.CreateProductCategoryResponse
-import com.example.ecommerce.adepter.`in`.web.model.ModifyProductCategoryRequest
+import com.example.ecommerce.adepter.input.web.ProductCategoriesApi
+import com.example.ecommerce.adepter.input.web.model.CreateProductCategoryRequest
+import com.example.ecommerce.adepter.input.web.model.CreateProductCategoryResponse
+import com.example.ecommerce.adepter.input.web.model.ModifyProductCategoryRequest
 import com.example.ecommerce.application.port.product.`in`.CreateProductionCategoryUseCase
 import com.example.ecommerce.application.port.product.`in`.CreateProductionCategoryUseCase.Companion.invoke
 import com.example.ecommerce.application.port.product.`in`.DeleteProductCategoryUseCase
@@ -29,10 +29,10 @@ class ProductCategoryWebAdapter(
         val createdProductCategoryId: ProductCategoryId =
             createProductionCategoryUseCase(createProductCategoryRequest.toCommand())
         return ResponseEntity.status(HttpStatus.OK)
-            .body(CreateProductCategoryResponse().productCategoryId(createdProductCategoryId.value.toBigDecimal()))
+            .body(CreateProductCategoryResponse(productCategoryId = createdProductCategoryId.value.toBigDecimal()))
     }
 
-    override fun deleteProductCategory(productCategoryId: BigDecimal): ResponseEntity<Void> {
+    override fun deleteProductCategory(productCategoryId: BigDecimal): ResponseEntity<Unit> {
         deleteProductCategoryUseCase(productCategoryId = ProductCategoryId(productCategoryId.toLong()))
         return ResponseEntity.noContent().build()
     }
@@ -40,7 +40,7 @@ class ProductCategoryWebAdapter(
     override fun modifyProductCategory(
         productCategoryId: BigDecimal,
         modifyProductCategoryRequest: ModifyProductCategoryRequest
-    ): ResponseEntity<Void> {
+    ): ResponseEntity<Unit> {
         modifyProductCategoryUseCase(modifyProductCategoryRequest.toCommand(productCategoryId))
         return ResponseEntity.noContent().build()
     }
