@@ -53,6 +53,11 @@ dependencies {
     // https://mvnrepository.com/artifact/jakarta.annotation/jakarta.annotation-api
     implementation("jakarta.annotation:jakarta.annotation-api:2.1.1")
     implementation("javax.annotation:javax.annotation-api:1.3.2")
+
+    // graphQL dependencies
+    implementation("com.expediagroup:graphql-kotlin-spring-server:6.5.0")
+    implementation("com.expediagroup:graphql-kotlin-schema-generator:6.5.0")
+    implementation("com.expediagroup:graphql-kotlin-schema-generator-runtime:6.5.0")
 }
 
 tasks.withType<KotlinCompile> {
