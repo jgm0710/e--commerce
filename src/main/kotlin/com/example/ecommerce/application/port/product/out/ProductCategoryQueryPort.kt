@@ -2,6 +2,7 @@ package com.example.ecommerce.application.port.product.out
 
 import com.example.ecommerce.domain.product.ProductCategory
 import com.example.ecommerce.domain.product.ProductCategoryId
+import com.example.ecommerce.global.pagination.PageQuery
 
 interface ProductCategoryQueryPort {
 
@@ -9,7 +10,14 @@ interface ProductCategoryQueryPort {
 
     fun findAll(): List<ProductCategory>
 
-    fun existsByName(name: String) : Boolean
+    fun findAllBy(
+        productCategoryId: ProductCategoryId?,
+        name: String?,
+        code: String?,
+        pageQuery: PageQuery
+    ): List<ProductCategory>
 
-    fun existsByCode(code: String) : Boolean
+    fun existsByName(name: String): Boolean
+
+    fun existsByCode(code: String): Boolean
 }

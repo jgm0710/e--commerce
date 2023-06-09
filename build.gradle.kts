@@ -7,6 +7,7 @@ plugins {
     kotlin("plugin.spring") version "1.6.21"
     kotlin("plugin.jpa") version "1.6.21"
     id("org.openapi.generator") version "6.6.0"
+    kotlin("kapt") version "1.6.21"
 }
 
 group = "com.example"
@@ -38,6 +39,10 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     runtimeOnly("com.mysql:mysql-connector-j")
 
+    // querydsl
+    implementation("com.querydsl:querydsl-jpa")
+    kapt(group = "com.querydsl", name = "querydsl-apt", classifier = "jpa")
+
     // message broker
     implementation("org.springframework.kafka:spring-kafka")
 
@@ -55,9 +60,10 @@ dependencies {
     implementation("javax.annotation:javax.annotation-api:1.3.2")
 
     // graphQL dependencies
-    implementation("com.expediagroup:graphql-kotlin-spring-server:6.5.0")
-    implementation("com.expediagroup:graphql-kotlin-schema-generator:6.5.0")
-    implementation("com.expediagroup:graphql-kotlin-schema-generator-runtime:6.5.0")
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-graphql
+    implementation("org.springframework.boot:spring-boot-starter-graphql")
+    // https://mvnrepository.com/artifact/com.graphql-java/graphql-java-extended-scalars
+    implementation("com.graphql-java:graphql-java-extended-scalars:20.2")
 }
 
 tasks.withType<KotlinCompile> {
@@ -97,5 +103,12 @@ sourceSets {
 tasks {
     compileKotlin {
         dependsOn("openApiGenerate")
+    }
+}
+
+// querydsl generated directory setting
+sourceSets.main {
+    withConvention(org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet::class) {
+        kotlin.srcDir("$buildDir/generated/source/kapt/main")
     }
 }

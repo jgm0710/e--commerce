@@ -1,0 +1,13 @@
+scalar Long
+
+type Query {
+    productCategories(id : Long, name : String, code : String, page:Long, limit:Long) : [ProductCategory]
+}
+
+type ProductCategory {
+    id : Long!
+    name: String!
+    code: String!
+    createdAt : String!
+    lastModifiedAt : String!
+}

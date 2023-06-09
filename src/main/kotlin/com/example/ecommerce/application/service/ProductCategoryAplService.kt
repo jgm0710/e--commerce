@@ -14,6 +14,7 @@ import com.example.ecommerce.domain.product.ProductCategoryId
 import com.example.ecommerce.domain.product.exception.DuplicateProductCategoryCodeException
 import com.example.ecommerce.domain.product.exception.DuplicateProductCategoryNameException
 import com.example.ecommerce.domain.product.exception.ProductCategoryNotFoundException
+import com.example.ecommerce.global.pagination.PageQuery
 import com.example.ecommerce.global.transaction.Transaction
 import org.springframework.stereotype.Service
 
@@ -76,7 +77,16 @@ class ProductCategoryAplService(
         }
     }
 
-    override fun findAll(): List<ProductCategory> =
-        transaction.readOnly { productCategoryQueryPort.findAll() }.getOrThrow()
+    override fun findAll(
+        productCategoryId: ProductCategoryId?,
+        name: String?,
+        code: String?,
+        pageQuery: PageQuery
+    ): List<ProductCategory> = productCategoryQueryPort.findAllBy(
+        productCategoryId,
+        name,
+        code,
+        pageQuery
+    )
 }
 
