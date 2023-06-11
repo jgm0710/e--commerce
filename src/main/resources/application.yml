@@ -32,3 +32,8 @@ springdoc:
     path: /api-docs
   swagger-ui:
     path: /swagger-ui.html
+file:
+  storage:
+    properties:
+      upload-path: "/Users/jeong-gumin/Desktop/uploadDir"
+
