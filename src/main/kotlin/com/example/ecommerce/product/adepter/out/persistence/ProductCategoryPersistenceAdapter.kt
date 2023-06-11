@@ -1,13 +1,13 @@
 package com.example.ecommerce.product.adepter.out.persistence
 
+import com.example.ecommerce.global.pagination.PageQuery
 import com.example.ecommerce.product.adepter.out.persistence.ProductCategoryEntity.Companion.toEntity
-import com.example.ecommerce.adepter.out.persistence.product.QProductCategoryEntity.productCategoryEntity
+import com.example.ecommerce.product.adepter.out.persistence.QProductCategoryEntity.productCategoryEntity
 import com.example.ecommerce.product.application.port.out.DeleteProductCategoryPort
 import com.example.ecommerce.product.application.port.out.ProductCategoryQueryPort
 import com.example.ecommerce.product.application.port.out.SaveProductCategoryPort
 import com.example.ecommerce.product.domain.ProductCategory
 import com.example.ecommerce.product.domain.ProductCategoryId
-import com.example.ecommerce.global.pagination.PageQuery
 import com.querydsl.core.types.dsl.BooleanExpression
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.repository.findByIdOrNull

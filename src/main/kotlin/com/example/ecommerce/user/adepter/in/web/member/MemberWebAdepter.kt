@@ -1,17 +1,13 @@
 package com.example.ecommerce.user.adepter.`in`.web.member
 
+import com.example.ecommerce.global.pagination.PageRequest
 import com.example.ecommerce.user.adepter.`in`.web.member.request.ModifyMemberRequest
 import com.example.ecommerce.user.adepter.`in`.web.member.request.SignUpRequest
 import com.example.ecommerce.user.adepter.`in`.web.member.response.MemberDetailResponse
 import com.example.ecommerce.user.adepter.`in`.web.member.response.MemberSimpleResponse
-import com.example.ecommerce.application.port.member.`in`.*
+import com.example.ecommerce.user.application.port.`in`.member.*
 import com.example.ecommerce.user.domain.member.MemberId
 import com.example.ecommerce.user.domain.member.model.MemberDetail
-import com.example.ecommerce.global.pagination.PageRequest
-import com.example.ecommerce.user.application.port.`in`.member.FindMembersQueryCase
-import com.example.ecommerce.user.application.port.`in`.member.GetMemberDetailQueryCase
-import com.example.ecommerce.user.application.port.`in`.member.ModifyMemberUseCase
-import com.example.ecommerce.user.application.port.`in`.member.SignUpUseCase
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid

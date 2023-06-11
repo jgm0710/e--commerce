@@ -10,7 +10,6 @@ import com.example.ecommerce.file.application.port.out.SaveFileStoragePort
 import com.example.ecommerce.file.domain.file.FileStorage
 import com.example.ecommerce.file.domain.file.FileStorageId
 import com.example.ecommerce.file.domain.file.FileStorageProperties
-import com.example.ecommerce.domain.file.exception.*
 import com.example.ecommerce.file.domain.file.exception.*
 import com.example.ecommerce.global.transaction.Transaction
 import org.slf4j.LoggerFactory
