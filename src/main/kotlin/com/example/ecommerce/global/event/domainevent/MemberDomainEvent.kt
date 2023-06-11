@@ -1,8 +1,8 @@
 package com.example.ecommerce.global.event.domainevent
 
-import com.example.ecommerce.domain.member.Agreement
-import com.example.ecommerce.domain.member.Member
-import com.example.ecommerce.domain.member.MemberAddress
+import com.example.ecommerce.user.domain.member.Agreement
+import com.example.ecommerce.user.domain.member.Member
+import com.example.ecommerce.user.domain.member.MemberAddress
 import java.time.LocalDate
 
 sealed class MemberDomainEvent(
