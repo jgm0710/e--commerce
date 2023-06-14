@@ -7,4 +7,8 @@ data class Brand(
     val name: String,
     val introduction: String,
 ) : AbstractAggregate<BrandId>() {
+
+    fun modify(imageUrl: String?, name: String?, introduction: String?): Brand {
+        TODO("Not yet implemented")
+    }
 }
